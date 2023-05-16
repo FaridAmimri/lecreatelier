@@ -27,7 +27,7 @@
     }
 
     .write {
-      background-color: #b9e7e7;
+      background-color: var(--background-color);
       width: 50px;
       height: 50px;
       border-radius: 50%;
@@ -35,12 +35,12 @@
       justify-content: center;
       align-items: center;
       font-weight: 300;
-      border: 1px solid white;
+      border: 1px solid var(--text-secondary-color);
 
       &:hover {
         color: teal;
-        background-color: white;
-        border: 1px solid teal;
+        background-color: var(--background-color-white);
+        border: 1px solid var(--text-primary-color);
       }
     }
   }
