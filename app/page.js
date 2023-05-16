@@ -1,7 +1,7 @@
 /** @format */
 
 import Image from 'next/image'
-import styles from './page.module.scss'
+import styles from '../styles/Home.module.scss'
 import Link from 'next/link'
 
 const posts = [
