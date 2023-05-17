@@ -3,6 +3,7 @@
   --text-color: black;
   --text-primary-color: teal;
   --text-secondary-color: white;
+  --text-tertiary-color: #555;
 
   --background-color: #b9e7e7;
   --background-color-white: white;
@@ -13,6 +14,12 @@ body {
   padding: 0;
   margin: 0;
   color: var(--text-color);
+  display: flex;
+  justify-content: center;
+
+  .container {
+    width: 1024px;
+  }
 }
 
 a {
