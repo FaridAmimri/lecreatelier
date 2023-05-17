@@ -49,7 +49,7 @@ export default function Home() {
                 ></Image>
               </div>
               <div className={styles.content}>
-                <Link href={`/post/${post.Link}`}>
+                <Link href={`/single/${post.Link}`}>
                   <h1>{post.title}</h1>
                 </Link>
                 <p>{post.desc}</p>
