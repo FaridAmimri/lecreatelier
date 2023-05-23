@@ -2,7 +2,7 @@
 
 import styles from '../styles/Footer.module.scss'
 import Image from 'next/image'
-import Logo from '../public/images/logo.png'
+import Logo from '../public/assets/logo.png'
 import { FaHeart } from 'react-icons/fa'
 
 function Footer() {
