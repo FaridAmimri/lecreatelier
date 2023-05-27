@@ -25,7 +25,9 @@ function Navbar() {
   return (
     <div className={styles.navbar}>
       <div className={styles.logo}>
-        <Image src={Logo} alt='logo le créatelier' priority width={120} />
+        <Link href='/'>
+          <Image src={Logo} alt='logo le créatelier' priority width={120} />
+        </Link>
       </div>
       <div className={styles.links}>
         <Link className={styles.link} href='/?category=art'>
