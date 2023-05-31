@@ -26,6 +26,8 @@
         object-fit: cover;
       }
       .info {
+        display: flex;
+        flex-direction: column;
         span {
           font-weight: bold;
         }
@@ -96,6 +98,11 @@
           background-color: var(--background-color);
           color: var(--text-color);
         }
+      }
+
+      .button {
+        width: 130px;
+        height: 45px;
       }
     }
   }

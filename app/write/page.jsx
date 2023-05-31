@@ -46,10 +46,7 @@ function Write() {
       }
 
       const response = await axios.post('/api/post/new', newPost)
-      console.log('ok')
-      if (response.ok) {
-        router.push('/')
-      }
+      router.push('/')
     } catch (error) {
       console.log(error)
     } finally {

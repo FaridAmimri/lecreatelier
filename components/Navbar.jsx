@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { signIn, signOut, useSession, getProviders } from 'next-auth/react'
 
-function Navbar() {
+const Navbar = () => {
   const { data: session } = useSession()
 
   const [providers, setProviders] = useState(null)

@@ -5,7 +5,6 @@ import Post from '@models/post'
 
 export const GET = async (req, res) => {
   const queryCategory = req.nextUrl.searchParams.get('category')
-  console.log(queryCategory)
 
   try {
     await connectToDB()
