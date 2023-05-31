@@ -8,7 +8,7 @@ import 'react-quill/dist/quill.snow.css'
 import Input from '@components/Input'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import axios from 'axios'
+import { publicRequest } from '@utils/requests'
 
 function Write() {
   const router = useRouter()
@@ -45,7 +45,7 @@ function Write() {
         category: category
       }
 
-      const response = await axios.post('/api/post/new', newPost)
+      const response = await publicRequest.post('post/new', newPost)
       router.push('/')
     } catch (error) {
       console.log(error)
