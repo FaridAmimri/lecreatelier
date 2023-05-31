@@ -6,22 +6,24 @@ import styles from '../styles/Home.module.scss'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
-import axios from 'axios'
+import { publicRequest } from '@utils/requests'
+import HomeSkeleton from '@components/HomeSkeleton'
 
-export default function Home() {
+function Home() {
   const [posts, setPosts] = useState([])
+  const [isloading, setIsLoading] = useState(true)
 
   const searchParams = useSearchParams()
   const category = searchParams.get('category')
-  console.log(category)
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(
-          category ? `/api/post?category=${category}` : '/api/post'
+        const response = await publicRequest.get(
+          category ? `post?category=${category}` : 'post'
         )
         setPosts(response.data)
+        setIsLoading(false)
       } catch (error) {
         console.log(error)
       }
@@ -38,6 +40,7 @@ export default function Home() {
     <main className={styles.home}>
       <div className={styles.container}>
         <div className={styles.posts}>
+          {isloading && <HomeSkeleton styles={styles} posts={4} />}
           {posts.map((post) => (
             <div className={styles.post} key={post._id}>
               <div className={styles.imageContainer}>
@@ -51,11 +54,11 @@ export default function Home() {
                 ></Image>
               </div>
               <div className={styles.content}>
-                <Link href={`/single/${post.Link}`}>
-                  <h1>{post.title}</h1>
+                <h1>{post.title}</h1>
+                <p>{getText(post.description.slice(0, 300))}...</p>
+                <Link href={`/post/${post._id}`}>
+                  <button>Read More</button>
                 </Link>
-                <p>{getText(post.description)}</p>
-                <button>Read More</button>
               </div>
             </div>
           ))}
@@ -64,3 +67,5 @@ export default function Home() {
     </main>
   )
 }
+
+export default Home
