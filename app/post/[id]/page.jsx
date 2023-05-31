@@ -11,6 +11,7 @@ import Menu from '@components/Menu'
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { publicRequest } from '@utils/requests'
+import { useRouter } from 'next/navigation'
 import moment from 'moment/moment'
 import SingleSkeleton from '@components/SingleSkeleton'
 
@@ -18,6 +19,7 @@ function Single() {
   const [post, setPost] = useState([])
   const [isloading, setIsLoading] = useState(true)
 
+  const router = useRouter()
   const pathname = usePathname()
   const postId = pathname.split('/')[2]
 
@@ -37,6 +39,15 @@ function Single() {
   const getText = (html) => {
     const doc = new DOMParser().parseFromString(html, 'text/html')
     return doc.body.textContent
+  }
+
+  const handleDelete = async () => {
+    try {
+      await publicRequest.delete(`post/${postId}`)
+      router.push('/')
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -83,6 +94,7 @@ function Single() {
                 alt='boutton supprimé'
                 width={20}
                 height={20}
+                onClick={handleDelete}
               />
             </div>
           </div>
