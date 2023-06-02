@@ -6,11 +6,11 @@
   justify-content: center;
   flex-direction: column;
   height: 100vh;
-  background-color: #b9e7e7;
+  background-color: var(--background-color);
 
   h1 {
     font-size: 20px;
-    color: teal;
+    color: var(--text-primary-color);
     margin-bottom: 20px;
   }
 
@@ -18,22 +18,43 @@
     display: flex;
     flex-direction: column;
     padding: 10px;
-    background-color: white;
+    background-color: var(--text-secondary-color);
     width: 250px;
     gap: 20px;
 
     input {
       padding: 10px;
       border: none;
-      border-bottom: 1px solid gray;
+      border-bottom: 1px solid var(--text-tertiary-color);
     }
 
-    button {
-      padding: 10px;
-      border: none;
-      background-color: teal;
-      color: white;
-      cursor: pointer;
+    .loginBtn {
+      button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        background-color: var(--text-primary-color);
+        color: var(--text-secondary-color);
+        cursor: pointer;
+      }
+    }
+
+    .googleBtn {
+      button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 7px;
+        width: 100%;
+        padding: 9px;
+        border: 1px solid var(--text-primary-color);
+        background-color: var(--text-secondary-color);
+        color: var(--text-primary-color);
+        cursor: pointer;
+      }
+      svg {
+        font-size: x-large;
+      }
     }
 
     p {
