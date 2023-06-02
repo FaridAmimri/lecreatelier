@@ -6,7 +6,7 @@ import Logo from '../public/assets/logo.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { signIn, signOut, useSession, getProviders } from 'next-auth/react'
+import { signOut, useSession, getProviders } from 'next-auth/react'
 
 const Navbar = () => {
   const { data: session } = useSession()
@@ -51,33 +51,30 @@ const Navbar = () => {
 
         {session?.user ? (
           <>
-            <Image
-              src={session?.user.image}
-              width={37}
-              height={37}
-              className='rounded-full'
-              alt='profile'
-            />
-            <span onClick={signOut}>Sign Out</span>
+            {session.user.image && (
+              <Image
+                src={session?.user.image}
+                width={37}
+                height={37}
+                alt='profile'
+              />
+            )}
+
+            <span className={styles.logout} onClick={signOut}>
+              Logout
+            </span>
+
             <span className={styles.write}>
               <Link className={styles.link} href='/write'>
-                Write
+                Écrire
               </Link>
             </span>
           </>
         ) : (
           <>
-            {providers &&
-              Object.values(providers).map((provider) => (
-                <button
-                  type='button'
-                  key={provider.name}
-                  onClick={() => signIn(provider.id)}
-                  className='black_btn'
-                >
-                  Sign In
-                </button>
-              ))}
+            <span className={styles.login}>
+              <Link href='/login'>Login </Link>
+            </span>
           </>
         )}
       </div>
