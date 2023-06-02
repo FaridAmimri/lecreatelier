@@ -52,65 +52,68 @@ function Single() {
 
   return (
     <>
-      {isloading && <SingleSkeleton styles={styles} posts={1} />}
-      <div className={styles.single}>
-        <div className={styles.content}>
-          <div className={styles.illustration}>
-            {post.image && (
-              <Image
-                src={post.image}
-                priority
-                alt='illustration du post'
-                width={700}
-                height={300}
-              />
-            )}
-          </div>
-
-          <div className={styles.user}>
-            {post.profil && (
-              <Image
-                src={post.profil}
-                alt='image profile'
-                width={50}
-                height={50}
-              />
-            )}
-            <div className={styles.info}>
-              <span>{post.username}</span>
-              <p>Posted {moment(post.createdAt).fromNow()}</p>
-            </div>
-            <div className={styles.edit}>
-              <Link href={`/write?edit=2`}>
+      {isloading ? (
+        <SingleSkeleton styles={styles} posts={1} />
+      ) : (
+        <div className={styles.single}>
+          <div className={styles.content}>
+            <div className={styles.illustration}>
+              {post.image && (
                 <Image
-                  src={Edit}
-                  alt='boutton modifié'
+                  src={post.image}
+                  priority
+                  alt='illustration du post'
+                  width={700}
+                  height={300}
+                />
+              )}
+            </div>
+
+            <div className={styles.user}>
+              {post.profil && (
+                <Image
+                  src={post.profil}
+                  alt='image profile'
+                  width={50}
+                  height={50}
+                />
+              )}
+              <div className={styles.info}>
+                <span>{post.username}</span>
+                <p>Posted {moment(post.createdAt).fromNow()}</p>
+              </div>
+              <div className={styles.edit}>
+                <Link href={`/write?edit=2`}>
+                  <Image
+                    src={Edit}
+                    alt='boutton modifié'
+                    width={20}
+                    height={20}
+                  />
+                </Link>
+                <Image
+                  src={Delete}
+                  alt='boutton supprimé'
                   width={20}
                   height={20}
+                  onClick={handleDelete}
                 />
-              </Link>
-              <Image
-                src={Delete}
-                alt='boutton supprimé'
-                width={20}
-                height={20}
-                onClick={handleDelete}
-              />
+              </div>
+            </div>
+
+            <div className={styles.message}>
+              <h1>{post.title}</h1>
+              <article>
+                <p>{getText(post.description)}</p>
+              </article>
             </div>
           </div>
 
-          <div className={styles.message}>
-            <h1>{post.title}</h1>
-            <article>
-              <p>{getText(post.description)}</p>
-            </article>
+          <div className={styles.menu}>
+            <Menu styles={styles} category={post.category} />
           </div>
         </div>
-
-        <div className={styles.menu}>
-          <Menu styles={styles} category={post.category} />
-        </div>
-      </div>
+      )}
     </>
   )
 }
