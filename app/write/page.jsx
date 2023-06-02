@@ -46,7 +46,7 @@ function Write() {
       }
 
       const response = await publicRequest.post('post/new', newPost)
-      router.push('/')
+      response.status === 201 && router.push('/')
     } catch (error) {
       console.log(error)
     } finally {
