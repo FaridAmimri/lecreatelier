@@ -10,6 +10,7 @@ export const POST = async (req) => {
 
   try {
     await connectToDB() // We have to do this every time
+
     const newPost = new Post({
       creator: userId,
       profil: avatar,
