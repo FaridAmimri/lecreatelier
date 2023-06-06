@@ -67,5 +67,14 @@
       font-size: 12px;
       text-align: center;
     }
+
+    .error {
+      color: red;
+    }
+
+    .spinner {
+      display: flex;
+      justify-content: center;
+    }
   }
 }

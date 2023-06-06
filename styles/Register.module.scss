@@ -40,11 +40,22 @@
       font-size: 12px;
       text-align: center;
       color: red;
+      margin: 0;
     }
 
     span {
       font-size: 12px;
       text-align: center;
+    }
+
+    .errors {
+      align-self: flex-start;
+      color: red;
+    }
+
+    .spinner {
+      display: flex;
+      justify-content: center;
     }
   }
 }
