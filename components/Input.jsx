@@ -2,13 +2,13 @@
 
 import React from 'react'
 
-const Input = ({ styles, category, label, onChange }) => {
+const Input = ({ styles, checked, category, label, onChange }) => {
   return (
     <div className={styles}>
       <input
         type='radio'
         name='category'
-        value={category}
+        checked={checked}
         id={category}
         onChange={onChange}
       ></input>
