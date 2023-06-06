@@ -1,26 +1,32 @@
 /** @format */
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styles from '@styles/Write.module.scss'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import Input from '@components/Input'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 import { publicRequest } from '@utils/requests'
+import { useSearchParams } from 'next/navigation'
 
 function Write() {
-  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const titlePost = searchParams.get('title')
+  const titleDesc = searchParams.get('description')
+  const titleCat = searchParams.get('category')
+
   const { data: session } = useSession()
 
   const [submitting, setSubmitting] = useState(false)
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [file, setFile] = useState('')
-  const [category, setCategory] = useState('')
 
-  const CreatePost = async (e) => {
+  const [title, setTitle] = useState(titlePost || '')
+  const [description, setDescription] = useState(titleDesc || '')
+  const [file, setFile] = useState(null)
+  const [category, setCategory] = useState(titleCat || '')
+
+  const handlePost = async (e) => {
     e.preventDefault()
     setSubmitting(true)
 
@@ -35,6 +41,7 @@ function Write() {
       )
 
       const { url } = upload.data
+
       const newPost = {
         userId: session?.user.id,
         avatar: session?.user.image,
@@ -60,11 +67,13 @@ function Write() {
         <input
           type='text'
           placeholder='Title'
+          value={title}
           onChange={(e) => setTitle(e.target.value)}
         ></input>
         <div className={styles.editor}>
           <ReactQuill
             theme='snow'
+            value={description}
             onChange={setDescription}
             style={{ height: '100%', border: 'none' }}
           />
@@ -73,12 +82,12 @@ function Write() {
 
       <div className={styles.menu}>
         <div className={styles.item}>
-          <h1>Publish</h1>
+          <h1>Publier</h1>
           <span>
-            <b>Status: </b>Draft
+            <b>Statut: </b>Brouillon
           </span>
           <span>
-            <b>Visibility: </b>Public
+            <b>Visibilité: </b>Public
           </span>
           <input
             type='file'
@@ -91,49 +100,55 @@ function Write() {
             Upload Image
           </label>
           <div className={styles.buttons}>
-            <button>Save as a draft</button>
-            <button disabled={submitting} onClick={CreatePost}>
-              Publish
+            <button>Annuler</button>
+            <button disabled={submitting} onClick={handlePost}>
+              Publier
             </button>
           </div>
         </div>
 
         <div className={styles.item}>
-          <h1>Category</h1>
+          <h1>Categorie</h1>
           <Input
             styles={styles.category}
             category='art'
             label='Art'
+            checked={category === 'art'}
             onChange={(e) => setCategory(e.target.value)}
           />
           <Input
             styles={styles.category}
             category='science'
             label='Science'
+            checked={category === 'science'}
             onChange={(e) => setCategory(e.target.value)}
           />
           <Input
             styles={styles.category}
             category='technology'
             label='Technology'
+            checked={category === 'technology'}
             onChange={(e) => setCategory(e.target.value)}
           />
           <Input
             styles={styles.category}
             category='cinema'
             label='Cinema'
+            checked={category === 'cinema'}
             onChange={(e) => setCategory(e.target.value)}
           />
           <Input
             styles={styles.category}
             category='design'
             label='Design'
+            checked={category === 'design'}
             onChange={(e) => setCategory(e.target.value)}
           />
           <Input
             styles={styles.category}
             category='food'
             label='Food'
+            checked={category === 'food'}
             onChange={(e) => setCategory(e.target.value)}
           />
         </div>
