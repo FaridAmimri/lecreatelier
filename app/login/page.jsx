@@ -5,66 +5,76 @@
 import Link from 'next/link'
 import styles from '../../styles/Login.module.scss'
 import { FcGoogle } from 'react-icons/fc'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { signIn, useSession } from 'next-auth/react'
+import { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { getProviders, signIn, useSession } from 'next-auth/react'
+import { Oval } from 'react-loader-spinner'
 
 function Login() {
-  const [values, setValues] = useState([])
-  const [error, setError] = useState(null)
-
   const session = useSession()
   const router = useRouter()
+  const params = useSearchParams()
 
-  if (session.status === 'authenticated') {
-    router.push('/')
-  }
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setValues({
-      ...values,
-      [name]: value
-    })
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-
-    const user = {
-      email: values.email,
-      password: values.password
+  useEffect(() => {
+    setError(params.get('error'))
+    setSuccess(params.get('success'))
+    if (session.status === 'authenticated') {
+      router?.push('/')
     }
+  }, [params, router, session.status])
 
-    signIn('credentials', user)
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setIsLoading(true)
+
+    const email = e.target[0].value
+    const password = e.target[1].value
+
+    signIn('credentials', {
+      email,
+      password
+    })
   }
 
   return (
     <div className={styles.authentication}>
       <h1>Se connecter</h1>
       <form action='' onSubmit={handleSubmit}>
-        <input
-          type='text'
-          placeholder='Email'
-          name='email'
-          onChange={handleInputChange}
-        />
+        <input type='text' placeholder='Email' name='email' required />
         <input
           type='password'
           placeholder='Mot de passe'
           name='password'
-          onChange={handleInputChange}
+          required
         />
         <div className={styles.loginBtn}>
-          <button>Connexion</button>
+          <button disabled={isLoading}>Connexion</button>
         </div>
+        {error && <span className={styles.error}>Compte email inexistant</span>}
         <div className={styles.googleBtn}>
-          <button onClick={() => signIn('google')}>
+          <button disabled={isLoading} onClick={() => signIn('google')}>
             <FcGoogle />
             Google
           </button>
         </div>
-        {error && <p>Email ou mot de passe incorrect</p>}
+        {isLoading && (
+          <div className={styles.spinner}>
+            <Oval
+              height={40}
+              width={40}
+              color='teal'
+              visible={true}
+              ariaLabel='oval-loading'
+              secondaryColor='#b9e7e7'
+              strokeWidth={2}
+              strokeWidthSecondary={2}
+            />
+          </div>
+        )}
         <span>
           Première visite ? <Link href='/register'>Sʼenregistrer</Link>
         </span>
