@@ -83,7 +83,7 @@ function Single() {
                 <p>Posted {moment(post.createdAt).fromNow()}</p>
               </div>
               <div className={styles.edit}>
-                <Link href={`/write?edit=2`}>
+                <Link href={{ pathname: '/write', query: post }}>
                   <Image
                     src={Edit}
                     alt='boutton modifié'
