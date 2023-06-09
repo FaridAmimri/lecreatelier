@@ -3,7 +3,8 @@
 
 import { useState } from 'react'
 import styles from '@styles/Write.module.scss'
-import ReactQuill from 'react-quill'
+import dynamic from 'next/dynamic'
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 import 'react-quill/dist/quill.snow.css'
 import Input from '@components/Input'
 import axios from 'axios'
