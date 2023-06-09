@@ -9,8 +9,7 @@ const PostSchema = new Schema(
       ref: 'User'
     },
     profil: {
-      type: String,
-      required: [true, 'Profil is required']
+      type: String
     },
     username: {
       type: String,
