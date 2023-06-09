@@ -7,11 +7,11 @@ import styles from '../../styles/Login.module.scss'
 import { FcGoogle } from 'react-icons/fc'
 import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { getProviders, signIn, useSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { Oval } from 'react-loader-spinner'
 
 function Login() {
-  const session = useSession()
+  const { data: session, status } = useSession()
   const router = useRouter()
   const params = useSearchParams()
 
@@ -22,14 +22,16 @@ function Login() {
   useEffect(() => {
     setError(params.get('error'))
     setSuccess(params.get('success'))
-    if (session.status === 'authenticated') {
+
+    if (status === 'authenticated') {
       router?.push('/')
     }
-  }, [params, router, session.status])
+  }, [params, router, status])
 
-  const handleSubmit = (e) => {
+  const handleCredentialsLogin = (e) => {
     e.preventDefault()
     setIsLoading(true)
+    setError('')
 
     const email = e.target[0].value
     const password = e.target[1].value
@@ -40,10 +42,16 @@ function Login() {
     })
   }
 
+  const handleGoogleLogin = (e) => {
+    e.preventDefault()
+    setIsLoading(true)
+    signIn('google')
+  }
+
   return (
     <div className={styles.authentication}>
       <h1>Se connecter</h1>
-      <form action='' onSubmit={handleSubmit}>
+      <form action='' onSubmit={handleCredentialsLogin}>
         <input type='text' placeholder='Email' name='email' required />
         <input
           type='password'
@@ -54,9 +62,11 @@ function Login() {
         <div className={styles.loginBtn}>
           <button disabled={isLoading}>Connexion</button>
         </div>
-        {error && <span className={styles.error}>Compte email inexistant</span>}
+        {error && (
+          <span className={styles.error}>Email ou mot de passe incorrect</span>
+        )}
         <div className={styles.googleBtn}>
-          <button disabled={isLoading} onClick={() => signIn('google')}>
+          <button disabled={isLoading} onClick={handleGoogleLogin}>
             <FcGoogle />
             Google
           </button>
