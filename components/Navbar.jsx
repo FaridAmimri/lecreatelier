@@ -5,22 +5,10 @@ import styles from 'styles/Navbar.module.scss'
 import Logo from '../public/assets/logo.png'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
-import { signOut, useSession, getProviders } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 
 const Navbar = () => {
-  const { data: session } = useSession()
-
-  const [providers, setProviders] = useState(null)
-  const [toggleDropdown, setToggleDropdown] = useState(false)
-
-  useEffect(() => {
-    const setUpProviders = async () => {
-      const response = await getProviders()
-      setProviders(response)
-    }
-    setUpProviders()
-  }, [])
+  const { data, status } = useSession()
 
   return (
     <div className={styles.navbar}>
@@ -49,15 +37,10 @@ const Navbar = () => {
           <h6>FOOD</h6>
         </Link>
 
-        {session?.user ? (
+        {status === 'authenticated' && (
           <>
-            {session.user.image && (
-              <Image
-                src={session?.user.image}
-                width={37}
-                height={37}
-                alt='profile'
-              />
+            {data?.user.name && (
+              <span className={styles.user}>{data.user.name}</span>
             )}
 
             <span className={styles.logout} onClick={signOut}>
@@ -70,12 +53,11 @@ const Navbar = () => {
               </Link>
             </span>
           </>
-        ) : (
-          <>
-            <span className={styles.login}>
-              <Link href='/login'>Login </Link>
-            </span>
-          </>
+        )}
+        {status === 'unauthenticated' && (
+          <span className={styles.login}>
+            <Link href='/login'>Login </Link>
+          </span>
         )}
       </div>
     </div>
