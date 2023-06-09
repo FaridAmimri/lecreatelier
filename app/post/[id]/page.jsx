@@ -8,6 +8,7 @@ import Edit from '@/public/icons/edit.png'
 import Delete from '@/public/icons/delete.png'
 import Link from 'next/link'
 import Menu from '@components/Menu'
+import { useSession } from 'next-auth/react'
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { publicRequest } from '@utils/requests'
@@ -16,12 +17,13 @@ import moment from 'moment/moment'
 import SingleSkeleton from '@components/SingleSkeleton'
 
 function Single() {
-  const [post, setPost] = useState([])
-  const [isloading, setIsLoading] = useState(true)
-
+  const { data, status } = useSession()
   const router = useRouter()
   const pathname = usePathname()
   const postId = pathname.split('/')[2]
+
+  const [post, setPost] = useState([])
+  const [isloading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -42,11 +44,18 @@ function Single() {
   }
 
   const handleDelete = async () => {
-    try {
-      await publicRequest.delete(`post/${postId}`)
-      router.push('/')
-    } catch (error) {
-      console.log(error)
+    const userSessionId = data?.user.id
+    const userPostId = post.creator._id
+
+    if (status === 'authenticated' && userSessionId === userPostId) {
+      try {
+        await publicRequest.delete(`post/${postId}`)
+        router.push('/')
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      alert('You are not allowed to delete this post')
     }
   }
 
