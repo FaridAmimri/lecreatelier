@@ -1,30 +1,33 @@
 /** @format */
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import styles from '@styles/Write.module.scss'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import Input from '@components/Input'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { publicRequest } from '@utils/requests'
 import { useSearchParams } from 'next/navigation'
+import { Oval } from 'react-loader-spinner'
 
 function Write() {
+  const { data: session } = useSession()
+  const router = useRouter()
   const searchParams = useSearchParams()
 
-  const titlePost = searchParams.get('title')
-  const titleDesc = searchParams.get('description')
-  const titleCat = searchParams.get('category')
-
-  const { data: session } = useSession()
+  const postId = searchParams.get('_id')
+  const postTitle = searchParams.get('title')
+  const postDesc = searchParams.get('description')
+  const postCat = searchParams.get('category')
 
   const [submitting, setSubmitting] = useState(false)
-
-  const [title, setTitle] = useState(titlePost || '')
-  const [description, setDescription] = useState(titleDesc || '')
+  const [title, setTitle] = useState(postTitle || '')
+  const [description, setDescription] = useState(postDesc || '')
   const [file, setFile] = useState(null)
-  const [category, setCategory] = useState(titleCat || '')
+  const [category, setCategory] = useState(postCat || '')
 
   const handlePost = async (e) => {
     e.preventDefault()
@@ -52,8 +55,19 @@ function Write() {
         category: category
       }
 
-      const response = await publicRequest.post('post/new', newPost)
-      response.status === 201 && router.push('/')
+      const updatePost = {
+        title: title,
+        description: description,
+        image: url,
+        category: category
+      }
+
+      postId
+        ? await publicRequest.patch(`/post/${postId}`, updatePost)
+        : await publicRequest.post('post/new', newPost)
+
+      // response.status === 201 && router.push('/')
+      router.push('/')
     } catch (error) {
       console.log(error)
     } finally {
@@ -105,6 +119,20 @@ function Write() {
               Publier
             </button>
           </div>
+          {submitting && (
+            <div className={styles.spinner}>
+              <Oval
+                height={20}
+                width={20}
+                color='teal'
+                visible={true}
+                ariaLabel='oval-loading'
+                secondaryColor='#b9e7e7'
+                strokeWidth={2}
+                strokeWidthSecondary={2}
+              />
+            </div>
+          )}
         </div>
 
         <div className={styles.item}>
@@ -113,6 +141,7 @@ function Write() {
             styles={styles.category}
             category='art'
             label='Art'
+            value='art'
             checked={category === 'art'}
             onChange={(e) => setCategory(e.target.value)}
           />
@@ -120,6 +149,7 @@ function Write() {
             styles={styles.category}
             category='science'
             label='Science'
+            value='science'
             checked={category === 'science'}
             onChange={(e) => setCategory(e.target.value)}
           />
@@ -127,6 +157,7 @@ function Write() {
             styles={styles.category}
             category='technology'
             label='Technology'
+            value='technology'
             checked={category === 'technology'}
             onChange={(e) => setCategory(e.target.value)}
           />
@@ -134,6 +165,7 @@ function Write() {
             styles={styles.category}
             category='cinema'
             label='Cinema'
+            value='cinema'
             checked={category === 'cinema'}
             onChange={(e) => setCategory(e.target.value)}
           />
@@ -141,6 +173,7 @@ function Write() {
             styles={styles.category}
             category='design'
             label='Design'
+            value='design'
             checked={category === 'design'}
             onChange={(e) => setCategory(e.target.value)}
           />
@@ -148,6 +181,7 @@ function Write() {
             styles={styles.category}
             category='food'
             label='Food'
+            value='food'
             checked={category === 'food'}
             onChange={(e) => setCategory(e.target.value)}
           />
