@@ -15,3 +15,31 @@
     }
   }
 }
+
+// Mobile
+@media screen and (max-width: 768px) {
+  .footer {
+    footer {
+      justify-content: center;
+      margin-top: 0;
+
+      img {
+        display: none;
+      }
+    }
+  }
+}
+
+// Tablet
+@media screen and (min-width: 769px) and (max-width: 1100px) {
+  .footer {
+    footer {
+      justify-content: center;
+      margin-top: 0;
+
+      img {
+        display: none;
+      }
+    }
+  }
+}

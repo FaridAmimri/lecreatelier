@@ -8,6 +8,7 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 import 'react-quill/dist/quill.snow.css'
 import Input from '@components/Input'
 import axios from 'axios'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { publicRequest } from '@utils/requests'
@@ -115,7 +116,9 @@ function Write() {
             Upload Image
           </label>
           <div className={styles.buttons}>
-            <button>Annuler</button>
+            <Link href='/'>
+              <span>Annuler</span>
+            </Link>
             <button disabled={submitting} onClick={handlePost}>
               Publier
             </button>

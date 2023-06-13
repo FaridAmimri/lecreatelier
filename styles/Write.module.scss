@@ -56,8 +56,9 @@
     .buttons {
       display: flex;
       justify-content: space-between;
+      align-items: center;
 
-      :first-child {
+      span {
         color: var(--text-primary-color);
         background-color: var(--background-color-white);
         border: 1px solid var(--text-primary-color);
@@ -65,7 +66,7 @@
         cursor: pointer;
       }
 
-      :last-child {
+      button {
         color: var(--text-secondary-color);
         background-color: var(--text-primary-color);
         border: 1px solid var(--text-primary-color);
@@ -84,6 +85,37 @@
       align-items: center;
       gap: 2px;
       color: var(--text-primary-color);
+    }
+  }
+}
+
+// Mobile
+@media screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    margin-top: 70px;
+    margin-bottom: 40px;
+    padding: 20px;
+    gap: 40px;
+  }
+
+  .menu {
+    .item {
+      gap: 10px;
+    }
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1100px) {
+  .container {
+    flex-direction: column;
+    margin-top: 95px;
+    padding: 20px;
+  }
+
+  .menu {
+    .item {
+      gap: 10px;
     }
   }
 }
