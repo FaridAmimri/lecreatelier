@@ -181,14 +181,6 @@ function Write() {
             checked={category === 'design'}
             onChange={(e) => setCategory(e.target.value)}
           />
-          <Input
-            styles={styles.category}
-            category='food'
-            label='Food'
-            value='food'
-            checked={category === 'food'}
-            onChange={(e) => setCategory(e.target.value)}
-          />
         </div>
       </div>
     </div>
