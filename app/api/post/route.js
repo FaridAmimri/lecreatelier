@@ -15,7 +15,7 @@ export const GET = async (req, res) => {
         category: queryCategory
       }).populate('creator')
     } else {
-      posts = await Post.find({}).populate('creator')
+      posts = await Post.find({})
     }
 
     return new Response(JSON.stringify(posts), { status: 200 })
