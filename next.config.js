@@ -5,7 +5,6 @@
 
 const nextConfig = {
   experimental: {
-    appDir: true,
     serverComponentsExternalPackages: ['mongoose']
   },
   async headers() {
